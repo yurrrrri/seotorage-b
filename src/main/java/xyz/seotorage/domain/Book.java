@@ -1,19 +1,25 @@
 package xyz.seotorage.domain;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import static jakarta.persistence.GenerationType.UUID;
+
 @Entity
-@Data
+@Getter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Book {
 
+    @GeneratedValue(strategy = UUID)
     @Id
-    private String id; // This could be ISBN or another unique identifier from Aladin API
+    private String id; // ISBN
 
     private String title;
     private String author;
@@ -22,4 +28,5 @@ public class Book {
     private String description;
     private String coverImage;
     private String category;
+
 }

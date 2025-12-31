@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AladinBookItem {
+
     private String title;
     private String link;
     private String author;
@@ -18,4 +19,5 @@ public class AladinBookItem {
     private String cover; // Image URL
     private String publisher;
     private String categoryName;
+
 }

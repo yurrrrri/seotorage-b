@@ -10,8 +10,10 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AladinSearchResponse {
+
     private Integer totalResults;
     private Integer startIndex;
     private Integer itemsPerPage;
     private List<AladinBookItem> item;
+
 }

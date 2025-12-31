@@ -1,25 +1,30 @@
 package xyz.seotorage.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Entity
-@Data
+@Getter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 public class UserBook {
 
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Id
-    private String id = UUID.randomUUID().toString(); // Use UUID for string ID
+    private String id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -36,6 +41,11 @@ public class UserBook {
     @LastModifiedDate
     private LocalDateTime modifiedDate;
 
+    @Min(0)
+    @Max(5)
     private float rate;
+
+    @Length(max = 200)
     private String memo;
+
 }

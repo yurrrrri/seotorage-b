@@ -24,8 +24,8 @@ public class UserController {
         return "Login successful, but no principal found.";
     }
 
-    @GetMapping("/loginFailure")
-    public String loginFailure() {
+    @GetMapping("/restricted")
+    public String restricted() {
         return "Login failed!";
     }
 
@@ -33,4 +33,5 @@ public class UserController {
     public OAuth2User user(@AuthenticationPrincipal OAuth2User principal) {
         return principal;
     }
+
 }

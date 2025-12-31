@@ -1,25 +1,24 @@
 package xyz.seotorage.domain;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.Max;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import java.time.LocalDateTime;
-import java.util.UUID;
+import xyz.seotorage.domain.vo.PagingType;
 
 @Entity
-@Data
+@Getter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 public class Content {
 
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Id
-    private String id = UUID.randomUUID().toString(); // Use UUID for string ID
+    private String id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_book_id")
@@ -27,18 +26,24 @@ public class Content {
 
     @CreatedDate
     @Column(updatable = false)
-    private LocalDateTime createDate;
+    private long createDate;
 
     @LastModifiedDate
-    private LocalDateTime modifiedDate;
+    private long modifiedDate;
 
-    private String image; // URL or path to image
+    private String image; // image URL or path
 
     @Enumerated(EnumType.STRING)
     private PagingType pagingType;
 
     private Integer pageNumber;
-    private String sentence; // The transcribed text
+
+    @Max(500)
+    private String sentence;
+
+    @Max(200)
     private String memo;
+
     private boolean removed;
+
 }

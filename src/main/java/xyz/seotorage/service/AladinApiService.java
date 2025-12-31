@@ -1,5 +1,6 @@
 package xyz.seotorage.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -8,6 +9,7 @@ import xyz.seotorage.dto.aladin.AladinSearchResponse;
 
 import java.net.URI;
 
+@RequiredArgsConstructor
 @Service
 public class AladinApiService {
 
@@ -16,11 +18,8 @@ public class AladinApiService {
 
     private final RestTemplate restTemplate;
 
-    public AladinApiService(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
-    }
-
     public AladinSearchResponse searchBooks(String query) {
+        //
         URI uri = UriComponentsBuilder
                 .fromUriString("http://www.aladin.co.kr/ttb/api/")
                 .path("ItemSearch.aspx")
@@ -37,4 +36,5 @@ public class AladinApiService {
 
         return restTemplate.getForObject(uri, AladinSearchResponse.class);
     }
+
 }
