@@ -28,7 +28,7 @@ public class ContentService {
 
     public List<Content> findByUserBookId(String userBookId) {
         //
-        return contentRepository.findByUserBook_IdOrderByPageNumberDescAndCreatedDateDesc(userBookId);
+        return contentRepository.findByUserBook_IdOrderByPageNumberDescCreateDateDesc(userBookId);
     }
 
     public void write(@Valid ContentCdo cdo) {
