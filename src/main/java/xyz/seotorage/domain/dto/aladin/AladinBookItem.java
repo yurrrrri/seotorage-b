@@ -12,7 +12,7 @@ public class AladinBookItem {
     private String title;
     private String link;
     private String author;
-    private String pubDate;
+    private String pubDate; // 0000-00-00 format
     private String description;
     private String isbn;
     private String isbn13;

@@ -13,7 +13,7 @@ public class AladinSearchResponse {
 
     private Integer totalResults;
     private Integer startIndex;
-    private Integer itemsPerPage;
+    private Integer itemsPerPage; // limit
     private List<AladinBookItem> item;
 
 }
