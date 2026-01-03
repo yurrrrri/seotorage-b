@@ -13,8 +13,8 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/aladin")
-public class AladinController {
+@RequestMapping("/api/books")
+public class BookController {
 
     private final AladinApiService aladinApiService;
 

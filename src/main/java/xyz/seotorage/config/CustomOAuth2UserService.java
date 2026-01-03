@@ -33,7 +33,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     private void upsertUser(String name, String email) {
         //
-        userRepository.findByEmail(email).orElseGet(() -> {
+        userRepository.findByEmailAndRemovedFalse(email).orElseGet(() -> {
             User newUser = User.builder()
                     .name(name)
                     .email(email)

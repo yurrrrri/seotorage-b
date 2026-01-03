@@ -4,7 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.*;
 import xyz.seotorage.domain.dto.aladin.AladinBookItem;
-import xyz.seotorage.domain.dto.aladin.AladinSearchResponse;
+import xyz.seotorage.domain.dto.AladinSearchResponse;
 
 import java.time.LocalDate;
 import java.time.ZoneId;

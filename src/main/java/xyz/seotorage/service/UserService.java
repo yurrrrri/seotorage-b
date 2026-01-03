@@ -19,6 +19,11 @@ public class UserService {
         return this.getUser(userId);
     }
 
+    public User findUserByEmail(String email) {
+        //
+        return this.getUserByEmail(email);
+    }
+
     public void switchTheme(String userId) {
         //
         User user = this.getUser(userId);
@@ -40,6 +45,12 @@ public class UserService {
     private User getUser(String userId) {
         //
         Optional<User> optUser = userRepository.findByIdAndRemovedFalse(userId);
+        return optUser.orElseThrow(() -> new NoSuchElementException("User is not found."));
+    }
+
+    private User getUserByEmail(String email) {
+        //
+        Optional<User> optUser = userRepository.findByEmailAndRemovedFalse(email);
         return optUser.orElseThrow(() -> new NoSuchElementException("User is not found."));
     }
 

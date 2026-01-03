@@ -26,12 +26,13 @@ public class ContentService {
         return this.getContent(contentId);
     }
 
+    // TODO: unlimited scroll
     public List<Content> findByUserBookId(String userBookId) {
         //
         return contentRepository.findByUserBook_IdOrderByPageNumberDescCreateDateDesc(userBookId);
     }
 
-    public void write(@Valid ContentCdo cdo) {
+    public String write(@Valid ContentCdo cdo) {
         //
         UserBook userBook = userBookService.findById(cdo.getUserBookId());
 
@@ -44,7 +45,7 @@ public class ContentService {
                 .memo(cdo.getMemo())
                 .removed(false)
                 .build();
-        contentRepository.save(content);
+        return contentRepository.save(content).getId();
     }
 
     public void update(String contentId, @Valid ContentUdo udo) {

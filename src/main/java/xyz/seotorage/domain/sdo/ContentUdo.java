@@ -3,8 +3,10 @@ package xyz.seotorage.domain.sdo;
 import jakarta.validation.constraints.Max;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class ContentUdo {
 
     private String image;
