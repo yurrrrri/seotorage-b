@@ -3,22 +3,20 @@ package xyz.seotorage.domain;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import xyz.seotorage.domain.vo.PagingType;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @EntityListeners(AuditingEntityListener.class)
 public class UserBook {
 
@@ -40,6 +38,9 @@ public class UserBook {
 
     @LastModifiedDate
     private LocalDateTime modifiedDate;
+
+    @Enumerated(EnumType.STRING)
+    private PagingType pagingType;
 
     @Min(0)
     @Max(5)

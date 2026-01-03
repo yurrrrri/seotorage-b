@@ -2,26 +2,27 @@ package xyz.seotorage.domain;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import xyz.seotorage.domain.vo.Mode;
 import xyz.seotorage.domain.vo.Theme;
 
+import static xyz.seotorage.domain.vo.Mode.*;
+import static xyz.seotorage.domain.vo.Theme.DARK;
+import static xyz.seotorage.domain.vo.Theme.LIGHT;
+
 @Entity(name = "nuser")
 @Getter
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @EntityListeners(AuditingEntityListener.class)
 public class User {
 
     @GeneratedValue(strategy = GenerationType.UUID)
     @Id
-    private Long id;
+    private String id;
 
     private String name;
 
@@ -39,5 +40,20 @@ public class User {
     private Mode mode;
 
     private boolean removed;
+
+    public User changeTheme() {
+        this.theme = this.theme == LIGHT ? DARK : LIGHT;
+        return this;
+    }
+
+    public User changeMode() {
+        this.mode = this.mode == ALBUM ? LIST : ALBUM;
+        return this;
+    }
+
+    public User removeUser() {
+        this.removed = true;
+        return this;
+    }
 
 }

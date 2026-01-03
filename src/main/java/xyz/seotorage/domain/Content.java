@@ -11,8 +11,8 @@ import xyz.seotorage.domain.vo.PagingType;
 @Entity
 @Getter
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @EntityListeners(AuditingEntityListener.class)
 public class Content {
 
@@ -33,9 +33,6 @@ public class Content {
 
     private String image; // image URL or path
 
-    @Enumerated(EnumType.STRING)
-    private PagingType pagingType;
-
     private Integer pageNumber;
 
     @Max(500)
@@ -45,5 +42,19 @@ public class Content {
     private String memo;
 
     private boolean removed;
+
+    public Content updateContent(String image, int pageNumber, String sentence, String memo) {
+        this.modifiedDate = System.currentTimeMillis();
+        this.image = image;
+        this.pageNumber = pageNumber;
+        this.sentence = sentence;
+        this.memo = memo;
+        return this;
+    }
+
+    public Content remove() {
+        this.removed = true;
+        return this;
+    }
 
 }

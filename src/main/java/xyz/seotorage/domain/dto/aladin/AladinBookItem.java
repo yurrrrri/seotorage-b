@@ -1,4 +1,4 @@
-package xyz.seotorage.dto.aladin;
+package xyz.seotorage.domain.dto.aladin;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
