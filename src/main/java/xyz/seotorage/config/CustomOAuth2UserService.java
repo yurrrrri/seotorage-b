@@ -26,14 +26,15 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         final String email = this.getEmail(registrationId, oauth2User);
         final String name = this.getName(registrationId, oauth2User);
 
-        upsertUser(name, email); // insert user when null
+        String userId = upsertUser(name, email); // insert user when null
+        oauth2User.getAttributes().put("id", userId); // for easily searching user
 
         return oauth2User;
     }
 
-    private void upsertUser(String name, String email) {
+    private String upsertUser(String name, String email) {
         //
-        userRepository.findByEmailAndRemovedFalse(email).orElseGet(() -> {
+        User user = userRepository.findByEmailAndRemovedFalse(email).orElseGet(() -> {
             User newUser = User.builder()
                     .name(name)
                     .email(email)
@@ -44,6 +45,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                     .build();
             return userRepository.save(newUser);
         });
+        return user.getId();
     }
 
     private String getEmail(String registrationId, OAuth2User oauth2User) {

@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ContentUdo {
 
+    private String id;
     private String image;
     private int pageNumber;
     @Max(500)
@@ -17,8 +18,9 @@ public class ContentUdo {
     private String memo;
 
     @Builder
-    public ContentUdo(String image, int pageNumber, String sentence, String memo) {
+    public ContentUdo(String id, String image, int pageNumber, String sentence, String memo) {
         //
+        this.id = id;
         if ((image == null || image.isBlank()) &&
                 (sentence == null || sentence.isBlank()) &&
                 (memo == null || memo.isBlank())) {

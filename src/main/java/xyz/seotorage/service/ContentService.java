@@ -1,6 +1,5 @@
 package xyz.seotorage.service;
 
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import xyz.seotorage.domain.Content;
@@ -26,13 +25,12 @@ public class ContentService {
         return this.getContent(contentId);
     }
 
-    // TODO: unlimited scroll
     public List<Content> findByUserBookId(String userBookId) {
-        //
-        return contentRepository.findByUserBook_IdOrderByPageNumberDescCreateDateDesc(userBookId);
+        // TODO: unlimited scroll
+        return contentRepository.findByUserBookIdOrderByPageNumberDescCreateDateDesc(userBookId);
     }
 
-    public String write(@Valid ContentCdo cdo) {
+    public String write(ContentCdo cdo) {
         //
         UserBook userBook = userBookService.findById(cdo.getUserBookId());
 
@@ -48,9 +46,9 @@ public class ContentService {
         return contentRepository.save(content).getId();
     }
 
-    public void update(String contentId, @Valid ContentUdo udo) {
+    public void update(ContentUdo udo) {
         //
-        Content content = this.getContent(contentId);
+        Content content = this.getContent(udo.getId());
         contentRepository.save(content.updateContent(
                 udo.getImage(),
                 udo.getPageNumber(),

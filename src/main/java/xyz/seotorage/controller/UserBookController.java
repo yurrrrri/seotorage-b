@@ -1,6 +1,8 @@
 package xyz.seotorage.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
 import xyz.seotorage.domain.UserBook;
 import xyz.seotorage.service.UserBookService;
@@ -16,13 +18,18 @@ public class UserBookController {
 
     @GetMapping("/{id}")
     public UserBook getUserBook(@RequestParam String id) {
-        return userBookService.getUserBook(id);
+        return userBookService.findById(id);
     }
 
-    @GetMapping("/")
-    public List<UserBook> getUserBooks(@RequestBody String userId) {
-        // FIXME: admin
-        return userBookService.findByUserId("admin");
+    @GetMapping("/user")
+    public List<UserBook> getUserBooks(@AuthenticationPrincipal OAuth2User principal) {
+        String userId = principal.getAttribute("id");
+        return userBookService.findByUserId(userId);
+    }
+
+    @PostMapping("/")
+    public void remove(@RequestBody String id) {
+        userBookService.remove(id);
     }
 
 }

@@ -4,26 +4,25 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import xyz.seotorage.domain.User;
 import xyz.seotorage.service.UserService;
 
 @RequiredArgsConstructor
 @RestController
+@RequestMapping("/api/user")
 public class UserController {
 
     private final UserService userService;
 
     @GetMapping("/")
-    public String home(@AuthenticationPrincipal OAuth2User principal) {
-        if (principal != null) {
-            return "Welcome, " + principal.getAttribute("name") + "! You are logged in.";
-        }
-        return "Welcome to Seotorage! Please log in.";
+    public User home(@AuthenticationPrincipal OAuth2User principal) {
+        String userId = this.getUserId(principal);
+        return userService.findUser(userId);
     }
 
-    @GetMapping("/loginSuccess")
-    public ResponseEntity<?> loginSuccess(@AuthenticationPrincipal OAuth2User principal) {
+    @GetMapping("/success")
+    public ResponseEntity<?> success(@AuthenticationPrincipal OAuth2User principal) {
         if (principal != null) {
             return ResponseEntity.ok().build();
         }
@@ -35,23 +34,36 @@ public class UserController {
         return ResponseEntity.status(401).build();
     }
 
-    @GetMapping("/user/me")
-    public OAuth2User user(@AuthenticationPrincipal OAuth2User principal) {
-        return principal;
+    @GetMapping("/me")
+    public User getUser(@AuthenticationPrincipal OAuth2User principal) {
+        return userService.findUser(this.getUserId(principal));
+    }
+
+    @PostMapping("/find")
+    public User findByEmail(@RequestBody String email) {
+        return userService.findUserByEmail(email);
+    }
+
+    @PostMapping("/{id}")
+    public ResponseEntity<?> leave(@AuthenticationPrincipal OAuth2User principal) {
+        userService.remove(this.getUserId(principal));
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/switch-mode")
-    public ResponseEntity<?> switchMode() {
-        // FIXME: admin
-        userService.switchMode("admin");
+    public ResponseEntity<?> switchMode(@AuthenticationPrincipal OAuth2User principal) {
+        userService.switchMode(this.getUserId(principal));
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/switch-theme")
-    public ResponseEntity<?> switchTheme() {
-        // FIXME: admin
-        userService.switchTheme("admin");
+    public ResponseEntity<?> switchTheme(@AuthenticationPrincipal OAuth2User principal) {
+        userService.switchTheme(this.getUserId(principal));
         return ResponseEntity.ok().build();
+    }
+
+    private String getUserId(@AuthenticationPrincipal OAuth2User principal) {
+        return principal.getAttribute("id");
     }
 
 }

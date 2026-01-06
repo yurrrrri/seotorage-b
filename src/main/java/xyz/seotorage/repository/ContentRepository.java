@@ -11,5 +11,6 @@ import java.util.Optional;
 public interface ContentRepository extends JpaRepository<Content, String> {
 
     Optional<Content> findByIdAndRemovedFalse(String id);
-    List<Content> findByUserBook_IdOrderByPageNumberDescCreateDateDesc(String userBookId);
+    List<Content> findByUserBookId(String userBookId);
+    List<Content> findByUserBookIdOrderByPageNumberDescCreateDateDesc(String userBookId);
 }
