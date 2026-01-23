@@ -6,8 +6,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import xyz.seotorage.domain.Book;
-import xyz.seotorage.domain.dto.AladinSearchRequest;
 import xyz.seotorage.domain.dto.AladinSearchResponse;
+import xyz.seotorage.domain.dto.BookSearchQdo;
 
 import java.net.URI;
 import java.util.Collections;
@@ -22,9 +22,9 @@ public class AladinApiService {
 
     private final RestTemplate restTemplate;
 
-    public List<Book> searchBooks(AladinSearchRequest req) {
+    public List<Book> searchBooks(BookSearchQdo qdo) {
         //
-        URI uri = getUri(req);
+        URI uri = getUri(qdo);
 
         AladinSearchResponse response = restTemplate.getForObject(uri, AladinSearchResponse.class);
         if (response == null) return Collections.emptyList();
@@ -32,16 +32,16 @@ public class AladinApiService {
         return Book.getBooks(response);
     }
 
-    private URI getUri(AladinSearchRequest req) {
+    private URI getUri(BookSearchQdo qdo) {
         //
         return UriComponentsBuilder
           .fromUriString("http://www.aladin.co.kr/ttb/api/")
           .path("ItemSearch.aspx")
           .queryParam("TTBKey", apiKey)
-          .queryParam("Query", req.getSearchWord())
+          .queryParam("Query", qdo.getSearchWord())
           .queryParam("QueryType", "Title")
-          .queryParam("MaxResults", req.getLimit())
-          .queryParam("start", req.getOffset())
+          .queryParam("MaxResults", qdo.getLimit())
+          .queryParam("start", qdo.getOffset())
           .queryParam("SearchTarget", "Book")
           .queryParam("output", "xml")
           .queryParam("Version", 20131101)

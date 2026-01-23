@@ -21,19 +21,6 @@ public class UserController {
         return userService.findUser(userId);
     }
 
-    @GetMapping("/success")
-    public ResponseEntity<?> success(@AuthenticationPrincipal OAuth2User principal) {
-        if (principal != null) {
-            return ResponseEntity.ok().build();
-        }
-        return ResponseEntity.status(403).build();
-    }
-
-    @GetMapping("/restricted")
-    public ResponseEntity<?> restricted() {
-        return ResponseEntity.status(401).build();
-    }
-
     @GetMapping("/me")
     public User getUser(@AuthenticationPrincipal OAuth2User principal) {
         return userService.findUser(this.getUserId(principal));
@@ -44,19 +31,19 @@ public class UserController {
         return userService.findUserByEmail(email);
     }
 
-    @PostMapping("/{id}")
+    @PostMapping("/leave")
     public ResponseEntity<?> leave(@AuthenticationPrincipal OAuth2User principal) {
         userService.remove(this.getUserId(principal));
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/switch-mode")
+    @PostMapping("/switch-mode")
     public ResponseEntity<?> switchMode(@AuthenticationPrincipal OAuth2User principal) {
         userService.switchMode(this.getUserId(principal));
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/switch-theme")
+    @PostMapping("/switch-theme")
     public ResponseEntity<?> switchTheme(@AuthenticationPrincipal OAuth2User principal) {
         userService.switchTheme(this.getUserId(principal));
         return ResponseEntity.ok().build();
